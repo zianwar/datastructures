@@ -9,9 +9,9 @@ type ListNode struct {
 // List represents a singly linked list.
 // The zero value for List is an empty list ready to use.
 type List struct {
-	head *ListNode
-	tail *ListNode
-	size int
+	front *ListNode
+	tail  *ListNode
+	size  int
 }
 
 // NewList returns an initialized singly linked list.
@@ -25,6 +25,18 @@ func (l *List) Size() int {
 	return l.size
 }
 
+// Tail returns the tail of list l.
+// O(1)
+func (l *List) Tail() *ListNode {
+	return l.tail
+}
+
+// Front returns the front of list l.
+// O(1)
+func (l *List) Front() *ListNode {
+	return l.front
+}
+
 // Append adds node to the end of the list.
 // returns the appended node.
 // O(1)
@@ -36,24 +48,24 @@ func (l *List) Append(v interface{}) *ListNode {
 		l.tail = newNode
 	} else {
 		l.tail = newNode
-		l.head = newNode
+		l.front = newNode
 	}
 
 	l.size++
 	return newNode
 }
 
-// Prepend adds node to the head of the list.
+// Prepend adds node to the front of the list.
 // returns the prepended node.
 // O(1)
 func (l *List) Prepend(v interface{}) *ListNode {
 	newNode := &ListNode{Value: v}
 
-	if l.head != nil {
-		newNode.Next = l.head
-		l.head = newNode
+	if l.front != nil {
+		newNode.Next = l.front
+		l.front = newNode
 	} else {
-		l.head = newNode
+		l.front = newNode
 		l.tail = newNode
 	}
 
@@ -63,25 +75,25 @@ func (l *List) Prepend(v interface{}) *ListNode {
 
 // Remove removes all nodes that match the given value
 // returns true if any node was removed, false if nothing was removed.
-// O(1)
+// O(1) for removing front
+// O(N) for removing non-front nodes
 func (l *List) Remove(n *ListNode) bool {
-	current := l.head
-
 	// empty list
-	if current == nil {
+	if l.front == nil {
 		return false
 	}
 
-	// remove head if necessary
-	if current == n {
-		current = current.Next
-		l.head = current
+	// remove front if necessary
+	if l.front == n {
+		l.front = l.front.Next
 		l.size--
 		return true
 	}
 
-	// remove any non-head nodes
+	// remove any non-front nodes
+	current := l.front
 	removed := false
+
 	for current != nil && current.Next != nil {
 		if current.Next == n {
 			current.Next = current.Next.Next
@@ -99,7 +111,7 @@ func (l *List) Remove(n *ListNode) bool {
 // If node is not an element of l, the list is not modified.
 // O(N)
 func (l *List) InsertAfter(v interface{}, node *ListNode) bool {
-	current := l.head
+	current := l.front
 	newNode := &ListNode{Value: v}
 
 	for current != nil {
@@ -128,18 +140,18 @@ func (l *List) InsertAfter(v interface{}, node *ListNode) bool {
 func (l *List) InsertBefore(v interface{}, node *ListNode) bool {
 	newNode := &ListNode{Value: v}
 
-	// insert before head
-	if l.head == node {
-		newNode.Next = l.head
-		l.head = newNode
+	// insert before front
+	if l.front == node {
+		newNode.Next = l.front
+		l.front = newNode
 
 		l.size++
 		return true
 	}
 
-	// insert before non-head node
-	current := l.head.Next
-	prev := l.head
+	// insert before non-front node
+	current := l.front.Next
+	prev := l.front
 	for current != nil {
 		if current == node {
 			newNode.Next = current
@@ -158,7 +170,7 @@ func (l *List) InsertBefore(v interface{}, node *ListNode) bool {
 // Find finds an element with given value v and returns it
 // O(N)
 func (l *List) Find(v interface{}) *ListNode {
-	current := l.head
+	current := l.front
 
 	for current != nil {
 		if current.Value == v {
@@ -195,7 +207,7 @@ func (l *List) MoveBack(n *ListNode) bool {
 // O(N)
 func (l *List) ToArray() []interface{} {
 	a := make([]interface{}, 0)
-	current := l.head
+	current := l.front
 
 	for current != nil {
 		a = append(a, current.Value)

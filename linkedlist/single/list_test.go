@@ -4,20 +4,6 @@ import (
 	"testing"
 )
 
-// Equal tells whether a and b contain the same elements.
-// A nil argument is equivalent to an empty slice.
-func Equal(a, b []interface{}) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v != b[i] {
-			return false
-		}
-	}
-	return true
-}
-
 func TestAppend(t *testing.T) {
 	l := NewList()
 	l.Append(1)
@@ -134,4 +120,18 @@ func TestMoveBack(t *testing.T) {
 	if !Equal(got, expected) {
 		t.Errorf("expected %v got %v", expected, got)
 	}
+}
+
+// Equal tells whether a and b contain the same elements.
+// A nil argument is equivalent to an empty slice.
+func Equal(a, b []interface{}) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
 }
