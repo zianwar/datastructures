@@ -6,22 +6,33 @@ import (
 	list "github.com/zianwar/datastructures/linkedlist/single"
 )
 
-// Stack represents a thread-safe stack
+// Stack represents a thread-safe stack data structure
 type Stack struct {
 	sync.Mutex
-	l    list.List
+	l    *list.List
 	size int
 }
 
 // NewStack returns new stack
 func NewStack() *Stack {
-	return &Stack{}
+	return &Stack{
+		l: list.NewList(),
+	}
 }
 
 // Size returns the size of the stack
 // O(1)
 func (s *Stack) Size() int {
 	return s.size
+}
+
+// Peek returns the item at the top of the stack
+// O(1)
+func (s *Stack) Peek() interface{} {
+	if s.size == 0 {
+		return nil
+	}
+	return s.l.Front().Value
 }
 
 // Push pushes an element into the stack
