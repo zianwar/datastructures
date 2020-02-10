@@ -4,8 +4,8 @@ import "testing"
 
 func TestPush(t *testing.T) {
 	s := NewStack()
-	s.Push(1)
 	s.Push(2)
+	s.Push(1)
 
 	expected := []interface{}{1, 2}
 	got := s.ToArray()

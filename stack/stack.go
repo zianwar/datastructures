@@ -54,5 +54,8 @@ func (s *Stack) Pop() (interface{}, bool) {
 // ToArray returns an array representation of the stack
 // O(N)
 func (s *Stack) ToArray() []interface{} {
+	s.Lock()
+	defer s.Unlock()
+
 	return s.l.ToArray()
 }

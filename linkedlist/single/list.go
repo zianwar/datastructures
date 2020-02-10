@@ -1,5 +1,7 @@
 package single
 
+import "sync"
+
 // ListNode is an element of a linked list.
 type ListNode struct {
 	Value interface{}
@@ -9,6 +11,7 @@ type ListNode struct {
 // List represents a singly linked list.
 // The zero value for List is an empty list ready to use.
 type List struct {
+	sync.Mutex
 	front *ListNode
 	tail  *ListNode
 	size  int
@@ -22,18 +25,27 @@ func NewList() *List {
 // Size returns the number of elements of list l.
 // O(1)
 func (l *List) Size() int {
+	l.Lock()
+	defer l.Unlock()
+
 	return l.size
 }
 
 // Tail returns the tail of list l.
 // O(1)
 func (l *List) Tail() *ListNode {
+	l.Lock()
+	defer l.Unlock()
+
 	return l.tail
 }
 
 // Front returns the front of list l.
 // O(1)
 func (l *List) Front() *ListNode {
+	l.Lock()
+	defer l.Unlock()
+
 	return l.front
 }
 
@@ -41,6 +53,9 @@ func (l *List) Front() *ListNode {
 // returns the appended node.
 // O(1)
 func (l *List) Append(v interface{}) *ListNode {
+	l.Lock()
+	defer l.Unlock()
+
 	newNode := &ListNode{Value: v}
 
 	if l.tail != nil {
@@ -59,6 +74,9 @@ func (l *List) Append(v interface{}) *ListNode {
 // returns the prepended node.
 // O(1)
 func (l *List) Prepend(v interface{}) *ListNode {
+	l.Lock()
+	defer l.Unlock()
+
 	newNode := &ListNode{Value: v}
 
 	if l.front != nil {
@@ -78,6 +96,9 @@ func (l *List) Prepend(v interface{}) *ListNode {
 // O(1) for removing front
 // O(N) for removing non-front nodes
 func (l *List) Remove(n *ListNode) bool {
+	l.Lock()
+	defer l.Unlock()
+
 	// empty list
 	if l.front == nil {
 		return false
@@ -111,6 +132,9 @@ func (l *List) Remove(n *ListNode) bool {
 // If node is not an element of l, the list is not modified.
 // O(N)
 func (l *List) InsertAfter(v interface{}, node *ListNode) bool {
+	l.Lock()
+	defer l.Unlock()
+
 	current := l.front
 	newNode := &ListNode{Value: v}
 
@@ -138,6 +162,9 @@ func (l *List) InsertAfter(v interface{}, node *ListNode) bool {
 // If node is not an element of l, the list is not modified.
 // O(N)
 func (l *List) InsertBefore(v interface{}, node *ListNode) bool {
+	l.Lock()
+	defer l.Unlock()
+
 	newNode := &ListNode{Value: v}
 
 	// insert before front
@@ -170,6 +197,9 @@ func (l *List) InsertBefore(v interface{}, node *ListNode) bool {
 // Find finds an element with given value v and returns it
 // O(N)
 func (l *List) Find(v interface{}) *ListNode {
+	l.Lock()
+	defer l.Unlock()
+
 	current := l.front
 
 	for current != nil {
@@ -206,6 +236,9 @@ func (l *List) MoveBack(n *ListNode) bool {
 // ToArray returns an array representation of the values of the list l
 // O(N)
 func (l *List) ToArray() []interface{} {
+	l.Lock()
+	defer l.Unlock()
+
 	a := make([]interface{}, 0)
 	current := l.front
 
