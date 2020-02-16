@@ -4,8 +4,8 @@ type MinHeap struct {
 	heap
 }
 
-func lessMinHeap(items []int, i, j int) bool {
-	return items[i] < items[j]
+func lessMinHeap(items []interface{}, i, j int) bool {
+	return items[i].(int) < items[j].(int)
 }
 
 func NewMinHeap() *MinHeap {

@@ -1,15 +1,15 @@
 package heap
 
-type comparator func(items []int, i, j int) bool
+type comparator func(items []interface{}, i, j int) bool
 
 type heap struct {
-	items []int
+	items []interface{}
 	less  comparator
 }
 
 func NewHeap(less comparator) *heap {
 	return &heap{
-		items: make([]int, 0),
+		items: make([]interface{}, 0),
 		less:  less,
 	}
 }
@@ -31,16 +31,16 @@ func (h *heap) Swap(i, j int) {
 // until we find an appropriate spot for the element.
 // We essentially bubble up the minimum element.
 // O(log(n))
-func (h *heap) Push(v int) {
+func (h *heap) Push(v interface{}) {
 	h.items = append(h.items, v)
 	h.heapifyUp()
 }
 
 // Peek returns the min without removing it
 // O(1)
-func (h *heap) Peek() *int {
+func (h *heap) Peek() interface{} {
 	if h.Len() > 0 {
-		return &h.items[0]
+		return h.items[0]
 	}
 	return nil
 }
@@ -56,7 +56,7 @@ func (h *heap) Peek() *int {
 //    That depends on their values. There's no inherent ordering between
 //    the left and right.
 // O(log(n))
-func (h *heap) Pop() *int {
+func (h *heap) Pop() interface{} {
 	if h.Len() > 0 {
 		// save the min at the front and move the last item to the front.
 		min := h.items[0]
@@ -67,7 +67,7 @@ func (h *heap) Pop() *int {
 
 		// heapify to correctly place the item at the front
 		h.heapifyDown()
-		return &min
+		return min
 	}
 	return nil
 }
@@ -124,4 +124,8 @@ func (h *heap) heapifyDown() {
 			i = right
 		}
 	}
+}
+
+func (h *heap) ToArray() []interface{} {
+	return h.items
 }

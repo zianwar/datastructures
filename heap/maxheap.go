@@ -4,8 +4,8 @@ type MaxHeap struct {
 	heap
 }
 
-func lessMaxHeap(items []int, i, j int) bool {
-	return items[i] > items[j]
+func lessMaxHeap(items []interface{}, i, j int) bool {
+	return items[i].(int) > items[j].(int)
 }
 
 func NewMaxHeap() *MaxHeap {
