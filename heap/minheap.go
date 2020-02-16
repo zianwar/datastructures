@@ -1,11 +1,11 @@
 package heap
 
-type Heap struct {
+type MinHeap struct {
 	items []int
 }
 
-func NewHeap() *Heap {
-	return &Heap{
+func NewHeap() *MinHeap {
+	return &MinHeap{
 		items: make([]int, 0),
 	}
 }
@@ -19,14 +19,14 @@ func NewHeap() *Heap {
 // until we find an appropriate spot for the element.
 // We essentially bubble up the minimum element.
 // O(log(n))
-func (h *Heap) Push(v int) {
+func (h *MinHeap) Push(v int) {
 	h.items = append(h.items, v)
 	h.heapifyUp()
 }
 
 // Peek returns the min without removing it
 // O(1)
-func (h *Heap) Peek() *int {
+func (h *MinHeap) Peek() *int {
 	if len(h.items) > 0 {
 		return &h.items[0]
 	}
@@ -44,7 +44,7 @@ func (h *Heap) Peek() *int {
 //    That depends on their values. There's no inherent ordering between
 //    the left and right.
 // O(log(n))
-func (h *Heap) Pop() *int {
+func (h *MinHeap) Pop() *int {
 	if len(h.items) > 0 {
 		// save the min at the front and move the last item to the front.
 		min := h.items[0]
@@ -60,7 +60,7 @@ func (h *Heap) Pop() *int {
 	return nil
 }
 
-func (h *Heap) heapifyUp() {
+func (h *MinHeap) heapifyUp() {
 	if len(h.items) <= 1 {
 		return
 	}
@@ -80,7 +80,7 @@ func (h *Heap) heapifyUp() {
 	}
 }
 
-func (h *Heap) heapifyDown() {
+func (h *MinHeap) heapifyDown() {
 	if len(h.items) <= 1 {
 		return
 	}
@@ -114,6 +114,6 @@ func (h *Heap) heapifyDown() {
 	}
 }
 
-func (h *Heap) swap(i, j int) {
+func (h *MinHeap) swap(i, j int) {
 	h.items[i], h.items[j] = h.items[j], h.items[i]
 }
