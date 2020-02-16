@@ -106,7 +106,7 @@ func (h *MinHeap) heapifyDown() {
 		if i != smallest {
 			h.swap(i, smallest)
 			i = smallest
-		} else if i < len(h.items) {
+		} else if left < len(h.items) {
 			i = left
 		} else {
 			i = right
