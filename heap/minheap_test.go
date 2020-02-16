@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHeap(t *testing.T) {
-	h := NewHeap()
+func TestMinHeap(t *testing.T) {
+	h := NewMinHeap()
 	h.Push(5)
 	h.Push(6)
 	h.Push(7)
